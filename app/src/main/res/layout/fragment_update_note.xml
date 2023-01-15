@@ -36,7 +36,7 @@
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
-                    android:textSize="@dimen/_20ssp"
+                    android:textSize="@dimen/_12ssp"
                     android:autofillHints=""
                     android:inputType="text"/>
 
@@ -50,7 +50,7 @@
                     android:textColor="@color/black"
                     android:gravity="start|top"
                     android:textColorHint="@color/hintColor"
-                    android:textSize="@dimen/_18ssp"
+                    android:textSize="@dimen/_10ssp"
                     android:autofillHints=""
                     android:layout_marginTop="@dimen/_16sdp"
                     android:inputType="textMultiLine"/>
@@ -58,9 +58,10 @@
 
                 <ImageView
                     android:id="@+id/imageGalleryUpdateNote"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/_240sdp"
+                    android:layout_height="@dimen/_240sdp"
                     android:src="@drawable/ic_image_search"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_30sdp"/>
 
             </LinearLayout>

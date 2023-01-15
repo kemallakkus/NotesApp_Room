@@ -69,7 +69,7 @@ class NotesAdapter: RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
             val color = Color.argb(
                 255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
 
-        holder.itemBinding.viewColor.setBackgroundColor(color)
+        //holder.itemBinding.viewColor.setBackgroundColor(color)
         holder.itemView.setOnClickListener { mView ->
             //it.findNavController().navigate(R.id.action_homeFragment_to_updateNoteFragment)
 

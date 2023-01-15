@@ -55,7 +55,7 @@
             android:text="No notes available!"
             android:gravity="center"
             android:padding="@dimen/_50sdp"
-            android:textSize="@dimen/_18ssp"
+            android:textSize="@dimen/_14ssp"
             android:textColor="@color/black"/>
 
     </androidx.cardview.widget.CardView>

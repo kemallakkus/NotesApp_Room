@@ -61,7 +61,7 @@ class UpdateNoteFragment : Fragment() {
             val body = binding.edNoteBodyUpdate.text.toString().trim()
 
             if(title.isNotEmpty()){
-                val note = NoteModel(currentNote.id, title,body,photo = null)
+                val note = NoteModel(currentNote.id, title,body,currentNote.photo)
 
                 viewModel.updateNote(note)
                 activity?.toast("Note updated!")
