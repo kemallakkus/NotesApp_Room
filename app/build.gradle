@@ -86,4 +86,9 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    def lottieVersion = "3.4.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+
 }

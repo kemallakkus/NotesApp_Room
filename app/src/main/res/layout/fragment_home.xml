@@ -1,63 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_white"
-    android:padding="@dimen/_8sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.HomeFragment">
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddNote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_16sdp"
-        android:layout_marginBottom="@dimen/_32sdp"
-        android:clickable="true"
-        android:backgroundTint="@color/colorPrimary"
-        android:tintMode="@color/white"
-        app:borderWidth="0dp"
-        android:src="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="image" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvNote"
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:visibility="gone"
+        android:id="@+id/constrait"
+        android:layout_marginBottom="60dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvNote"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="NotSibling" />
+        
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:fabCradleRoundedCornerRadius="10dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:fabAlignmentMode="end"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-    
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="@dimen/_10sdp"
-        app:cardCornerRadius="@dimen/_10sdp"
-        android:layout_margin="@dimen/_32sdp"
-        android:backgroundTint="@color/white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@+id/fabAddNote"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        
-        <TextView
-            android:id="@+id/tv_no_notes_available"
+        android:id="@+id/appBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="No notes available!"
-            android:gravity="center"
-            android:padding="@dimen/_50sdp"
-            android:textSize="@dimen/_14ssp"
-            android:textColor="@color/black"/>
+            tools:ignore="UseSwitchCompatOrMaterialXml">
 
-    </androidx.cardview.widget.CardView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/grid"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_dashboard"
+                android:background="?android:attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone"
+                app:tint="@color/bottom_color" />
+
+            <ImageView
+                android:id="@+id/linear"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_linear"
+                android:background="?android:attr/selectableItemBackground"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible"
+                app:tint="@color/bottom_color" />
+            
+            <Switch
+                android:id="@+id/switchTheme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/linear"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="50dp"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/appBar"
+            app:layout_anchorGravity="top|right"
+            android:backgroundTint="@color/colorPrimary"
+            android:clickable="true"
+            android:tintMode="@color/white"
+            app:borderWidth="0dp"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_add" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

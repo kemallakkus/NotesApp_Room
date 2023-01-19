@@ -16,4 +16,13 @@
         <item name="android:colorControlNormal">@color/white</item>
     </style>
 
+
+    <style name="SplashScreen" parent="Theme.AppCompat.DayNight.NoActionBar">
+
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+
+    </style>
+
 </resources>
