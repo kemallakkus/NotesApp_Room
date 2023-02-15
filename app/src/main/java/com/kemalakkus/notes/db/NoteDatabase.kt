@@ -5,9 +5,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.kemalakkus.notes.model.NoteModel
 
-@Database(entities = [NoteModel::class], version = 1)
+@Database(entities = [NoteModel::class], version = 2)
 abstract class NoteDatabase: RoomDatabase() {
 
     abstract fun getAllNoteDao(): NotesDao
@@ -24,11 +26,20 @@ abstract class NoteDatabase: RoomDatabase() {
             }
         }
 
+        val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE `notesTableName` (`id` INTEGER, `noteTitle` STRING, `noteBody` STRING , `photo` BYTEARRAY, `colors` STRING , `date` STRING ," +
+                        "PRIMARY KEY(`id`))")
+            }
+        }
+
+
+
         private fun createDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext,
             NoteDatabase::class.java,
             "note_db"
-        ).build()
+        ).addMigrations(MIGRATION_1_2).build()
 
 
 
