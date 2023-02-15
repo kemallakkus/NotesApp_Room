@@ -2,10 +2,19 @@
     <!-- Base application theme. -->
     <style name="Theme.Notes" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="colorPrimary">#1B1919</item>
+        <item name="colorPrimaryVariant">#302C2C</item>
+        <item name="colorOnPrimary">#302C2C</item>
+        <!-- Secondary brand color. -->
+        <item name="colorOnSecondary">#302C2C</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#1B1919</item>
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="CustomToolbarStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#1B1919</item>
+        <item name="colorPrimaryDark">#1B1919</item>
+        <item name="colorAccent">#1B1919</item>
         <!-- Customize your theme here. -->
     </style>
 

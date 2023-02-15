@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.OnClickListener
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat.getPermissionCompatDelegate
 import androidx.core.app.ActivityCompat.recreate
@@ -26,7 +27,7 @@ import com.kemalakkus.notes.model.NoteModel
 import com.kemalakkus.notes.viewmodel.NotesViewModel
 
 
-class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextListener {
+class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
 
     private var _binding: FragmentHomeBinding? = null
@@ -34,6 +35,8 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
     private lateinit var viewModel: NotesViewModel
     private lateinit var notesAdapter: NotesAdapter
     lateinit var sharedPref: SharedPref
+    //var control :Boolean=true
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +52,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        // Inflate the layout for this fragment
+        (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
         return binding.root
 
 
@@ -60,8 +63,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
 
         viewModel = (activity as MainActivity).viewModel
 
-        setupRecyclerView()
         sharedPref= SharedPref(requireContext().applicationContext)
+        setupRecyclerView()
+
+        if (sharedPref.loadLayoutModeState()==true){
+            linear()
+        }else{
+            grid()
+        }
+
 
         //darkModeOnOff()
 
@@ -76,18 +86,20 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
             if (isChecked) {
                 sharedPref.setNightModeState(true)
                 restarApp()
+                //binding.switchTheme.text = "On"
 
             } else {
                 sharedPref.setNightModeState(false)
                 restarApp()
+                //binding.switchTheme.text = "Off"
+
             }
         }
     }
 
-
     private fun setupRecyclerView(){
 
-        grid()
+        /*grid()
         linear()
 
         notesAdapter = NotesAdapter()
@@ -98,44 +110,63 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
 
             setHasFixedSize(true)
             adapter = notesAdapter
+        }*/
+        binding.gridImage.setOnClickListener {
+            grid()
+            sharedPref.setLayoutModeState(true)
         }
+        binding.linearImage.setOnClickListener {
+            linear()
+            sharedPref.setLayoutModeState(false)
+        }
+    }
+
+
+
+    private fun linear() {
+        notesAdapter = NotesAdapter()
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(
+                context,
+                LinearLayoutManager.VERTICAL, false
+            )
+            setHasFixedSize(true)
+            adapter = notesAdapter
+        }
+        binding.gridImage.visibility = View.VISIBLE
+        binding.linearImage.visibility = View.GONE
 
         activity?.let {
-            viewModel.getAllNotes().observe(viewLifecycleOwner, Observer{ note->
+            viewModel.getAllNotes().observe(viewLifecycleOwner, { note ->
                 notesAdapter.differ.submitList(note)
-                updateUI(note)
+                //updateUI(note)
+            })
+        }
+
+    }
+
+    private fun grid() {
+        notesAdapter = NotesAdapter()
+        binding.recyclerView.apply {
+            layoutManager = StaggeredGridLayoutManager(
+                2,
+                StaggeredGridLayoutManager.VERTICAL
+            )
+            setHasFixedSize(true)
+            adapter = notesAdapter
+        }
+        binding.linearImage.visibility = View.VISIBLE
+        binding.gridImage.visibility = View.GONE
+
+        activity?.let {
+            viewModel.getAllNotes().observe(viewLifecycleOwner, { note ->
+                notesAdapter.differ.submitList(note)
+                //updateUI(note)
             })
         }
     }
 
-    private fun linear() {
-        binding.linear.setOnClickListener {
-            binding.rvNote.apply {
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-                setHasFixedSize(true)
-                adapter = notesAdapter
-
-            }
-            binding.linear.visibility = View.GONE
-            binding.grid.visibility = View.VISIBLE
-
-        }
-    }
-
-    private fun grid() {
-        binding.grid.setOnClickListener {
-            binding.rvNote.apply {
-
-                layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
-                adapter = notesAdapter
-                setHasFixedSize(true)
-            }
-            binding.linear.visibility = View.VISIBLE
-            binding.grid.visibility = View.GONE
-        }
-    }
-
-    private fun updateUI(note: List<NoteModel>){
+    /*private fun updateUI(note: List<NoteModel>){
         if (note.isNotEmpty()){
             binding.rvNote.visibility = View.VISIBLE
             //binding.tvNoNotesAvailable.visibility = View.GONE
@@ -143,7 +174,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
             binding.rvNote.visibility = View.GONE
             //binding.tvNoNotesAvailable.visibility = View.VISIBLE
         }
-    }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -151,7 +182,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         inflater.inflate(R.menu.home_menu, menu)
 
         val mMenuSearch = menu.findItem(R.id.menu_search).actionView as SearchView
-        mMenuSearch.isSubmitButtonEnabled = true
+        mMenuSearch.isSubmitButtonEnabled = false
         mMenuSearch.setOnQueryTextListener(this)
     }
 
@@ -162,7 +193,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
             searchNotes(query)
         }*/
 
-        return true
+        return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {

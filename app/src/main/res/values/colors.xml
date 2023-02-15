@@ -8,6 +8,7 @@
     <color name="background_white">#EDE9E9</color>
     <color name="hintColor">#928E8E</color>
     <color name="bottom_color">#ECDC56</color>
+    <color name="textColor">#0C0C0C</color>
 
 
 </resources>

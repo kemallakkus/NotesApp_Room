@@ -6,67 +6,88 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background_white"
     tools:context=".fragments.NewNoteFragment">
-    
-    <LinearLayout
-        android:id="@+id/linearLayout"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        
-        <androidx.cardview.widget.CardView
+        android:layout_margin="@dimen/_16sdp"
+        android:background="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/_16sdp"
-            android:background="@color/white"
-            android:elevation="@dimen/_8sdp"
-            app:cardCornerRadius="@dimen/_5sdp">
-
-            <LinearLayout
+            android:orientation="vertical"
+            android:padding="16dp">
+            <EditText
+                android:id="@+id/etNoteTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="@dimen/_16sdp">
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Type your title..."
+                android:inputType="text"
+                android:textColorHint="@color/textColor"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/edNoteTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Title"
-                    android:textStyle="bold"
-                    android:textColor="@color/hintColor"
-                    android:textColorHint="@color/hintColor"
-                    android:textSize="@dimen/_12ssp"
-                    android:autofillHints=""
-                    android:inputType="text"/>
-
-
-                <EditText
-                    android:id="@+id/edNoteBody"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="Type something..."
-                    android:textColor="@color/hintColor"
-                    android:gravity="start|top"
-                    android:textColorHint="@color/hintColor"
-                    android:textSize="@dimen/_10ssp"
-                    android:autofillHints=""
-                    android:layout_marginTop="@dimen/_16sdp"
-                    android:inputType="textMultiLine"/>
+            <EditText
+                android:id="@+id/etNoteBody"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:layout_weight="1"
+                android:gravity="start|top"
+                android:hint="Type something..."
+                android:inputType="textMultiLine"
+                android:textColor="@color/textColor"
+                android:textSize="16sp" />
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="15dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                android:id="@+id/selectedImage">
+            </ImageView>
+            <LinearLayout
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageGalleryNewNote"
-                    android:layout_width="@dimen/_240sdp"
-                    android:layout_height="@dimen/_240sdp"
-                    android:src="@drawable/ic_image_search"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_30sdp"/>
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/new_image"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imageControl">
+                </ImageView>
+                <ImageView
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginHorizontal="@dimen/_10sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/color_picker_note"
+                    android:scaleType="centerCrop"
+                    android:id="@+id/colorPicker">
+                </ImageView>
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,19 +3,23 @@ package com.kemalakkus.notes.fragments
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.provider.MediaStore
 import android.view.*
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.kemalakkus.notes.MainActivity
 import com.kemalakkus.notes.R
@@ -23,8 +27,13 @@ import com.kemalakkus.notes.databinding.FragmentNewNoteBinding
 import com.kemalakkus.notes.model.NoteModel
 import com.kemalakkus.notes.toast
 import com.kemalakkus.notes.viewmodel.NotesViewModel
+import com.skydoves.colorpickerview.ColorEnvelope
+import com.skydoves.colorpickerview.ColorPickerDialog
+import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
 
@@ -36,6 +45,9 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     var selectedBitmap: Bitmap? = null
     var byteArray: ByteArray? = null
+    private lateinit var note: NoteModel
+    private lateinit var toolBar: Toolbar
+    private var color="#FFFFFF"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,15 +68,35 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).viewModel
+        colorPick()
         mView = view
-
         selectImage()
         registerLauncher()
+        toolBar= requireActivity().findViewById(R.id.toolbar)
+    }
+
+    private fun colorPick() {
+        binding.colorPicker.setOnClickListener {
+            ColorPickerDialog.Builder(requireContext()).setTitle("Product Color")
+                .setPositiveButton("Select", object : ColorEnvelopeListener {
+                    override fun onColorSelected(envelope: ColorEnvelope?, fromUser: Boolean) {
+                        envelope?.let{
+                            color="#${Integer.toHexString(it.color).substring(2)}"
+                            binding.cardView.setCardBackgroundColor(Color.parseColor(color))
+
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel"){colorPicker,_->
+                    colorPicker.dismiss()
+                }.show()
+        }
     }
 
     private fun saveNote(view: View){
-        val noteTitle = binding.edNoteTitle.text.toString().trim()
-        val noteBody = binding.edNoteBody.text.toString().trim()
+        val noteTitle = binding.etNoteTitle.text.toString().trim()
+        val noteBody = binding.etNoteBody.text.toString().trim()
+        val date=SimpleDateFormat("EEE, d MMM yyyy HH:mm", Locale("tr","tr")).format(Date())
 
 
         if (noteTitle.isNotEmpty()){
@@ -76,7 +108,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
                 smallBitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
                 byteArray = outputStream.toByteArray()
             }
-            val note = NoteModel(0,noteTitle,noteBody,byteArray)
+            note = NoteModel(0,noteTitle,noteBody,byteArray,color,date)
 
             viewModel.addNote(note)
 
@@ -85,7 +117,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
             view.findNavController().navigate(R.id.action_newNoteFragment_to_homeFragment)
 
         }else{
-            activity?.toast("Please enter note title!!")
+            Snackbar.make(view,"Please enter note title",Snackbar.LENGTH_SHORT).show()
         }
 
 
@@ -96,8 +128,9 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
             R.id.save_menu ->{
                 saveNote(mView)
             }
+            else -> findNavController().navigateUp()
         }
-        return super.onOptionsItemSelected(item)
+        return true
     }
 
 
@@ -132,7 +165,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     }
 
     private fun selectImage() {
-        binding.imageGalleryNewNote.setOnClickListener{view->
+        binding.imageControl.setOnClickListener{view->
             if(ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     Snackbar.make(view, "Permission needed for gallery", Snackbar.LENGTH_INDEFINITE).setAction("Give Permission",
@@ -159,12 +192,13 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
                         if (Build.VERSION.SDK_INT >= 28) {
                             val source = ImageDecoder.createSource(requireContext().contentResolver, imageData!!)
                             selectedBitmap = ImageDecoder.decodeBitmap(source)
-                            binding.imageGalleryNewNote.setImageBitmap(selectedBitmap)
-                            binding.imageGalleryNewNote.visibility=View.VISIBLE
+                            binding.selectedImage.setImageBitmap(selectedBitmap)
+                            binding.selectedImage.visibility = View.VISIBLE
                         } else {
                             selectedBitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageData)
-                            binding.imageGalleryNewNote.setImageBitmap(selectedBitmap)
-                            binding.imageGalleryNewNote.visibility=View.VISIBLE
+                            binding.selectedImage.setImageBitmap(selectedBitmap)
+                            binding.selectedImage.visibility=View.VISIBLE
+
                         }
                     } catch (e:Exception) {
                         e.printStackTrace()

@@ -20,6 +20,8 @@ import kotlin.random.Random
 class NotesAdapter: RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
     class NotesViewHolder(val itemBinding: NoteLayoutAdapterBinding): RecyclerView.ViewHolder(itemBinding.root)
+    var colorsList :Array<String> = arrayOf( "#6C00FF","#C92C6D","#85CDFD","#FF9551","#A0D995","#F8B400","#BB6464","#DD4A48")
+
 
     private val differCallBack = object : DiffUtil.ItemCallback<NoteModel>(){
 
@@ -65,10 +67,12 @@ class NotesAdapter: RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
             //holder.binding.homeImage.visibility = View.VISIBLE
         }
 
+        holder.itemBinding.constraintLayout.setBackgroundColor(Color.parseColor(currentNote.colors))
+        holder.itemBinding.tvDate.text=currentNote.date
 
-            val random = java.util.Random()
+            /*val random = java.util.Random()
             val color = Color.argb(
-                255, random.nextInt(256), random.nextInt(256), random.nextInt(256))
+                255, random.nextInt(256), random.nextInt(256), random.nextInt(256))*/
 
         //holder.itemBinding.viewColor.setBackgroundColor(color)
         holder.itemView.setOnClickListener { mView ->

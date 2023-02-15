@@ -13,5 +13,7 @@ data class NoteModel(
     val id: Int,
     val noteTitle: String,
     val noteBody: String,
-    val photo : ByteArray?
+    val photo : ByteArray?,
+    val colors:String?=null,
+    val date:String?
 ): Parcelable

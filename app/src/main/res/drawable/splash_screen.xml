@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@color/colorPrimary"/>
-    <item android:drawable="@drawable/icons8_notepad_64" android:gravity="center"/>
+    <item android:drawable="@drawable/note_splash" android:gravity="center" />
 
 
 </layer-list>
