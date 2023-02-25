@@ -6,4 +6,6 @@
     <string name="image">image</string>
     <string name="bersyte">bersyte</string>
     <string name="Switch">Off</string>
+    <string name="record_button_content_description">Record</string>
+    <string name="audio_icon_content_description">Audio</string>
 </resources>

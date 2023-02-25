@@ -15,5 +15,7 @@ data class NoteModel(
     val noteBody: String,
     val photo : ByteArray?,
     val colors:String?=null,
-    val date:String?
+    val date:String?,
+    val audioPath: String?
+
 ): Parcelable
