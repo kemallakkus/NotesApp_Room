@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_200sdp"
+    android:layout_height="@dimen/_200sdp"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/alert_dialog_backround"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:id="@+id/timerText"
+        android:textSize="@dimen/_20ssp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textColor="@color/textColor"
+        android:gravity="center_horizontal"
+        android:text="Save Voice">
+    </TextView>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_microphone_audio"
+        android:layout_marginVertical="@dimen/_20sdp"
+        app:tint="@color/icon_color">
+    </ImageView>
+
+
+
+</LinearLayout>
