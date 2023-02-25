@@ -4,11 +4,12 @@
     <color name="colorPrimaryDark">#F7BA04</color>
     <color name="colorAccent">#F6DF16</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="background_white">#EDE9E9</color>
+    <color name="icon_color">#000000</color>
+    <color name="background">#EDE9E9</color>
     <color name="hintColor">#928E8E</color>
     <color name="bottom_color">#ECDC56</color>
     <color name="textColor">#0C0C0C</color>
+    <color name="white">#FFFFFF</color>
 
 
 </resources>

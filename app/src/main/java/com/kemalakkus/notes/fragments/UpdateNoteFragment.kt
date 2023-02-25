@@ -1,5 +1,6 @@
 package com.kemalakkus.notes.fragments
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,8 +10,10 @@ import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,6 +28,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.kemalakkus.notes.MainActivity
 import com.kemalakkus.notes.R
+import com.kemalakkus.notes.audio.Recorder
 import com.kemalakkus.notes.databinding.FragmentUpdateNoteBinding
 import com.kemalakkus.notes.model.NoteModel
 import com.kemalakkus.notes.toast
@@ -51,6 +55,11 @@ class UpdateNoteFragment : Fragment() {
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     private var byteArray:ByteArray?=null
+    private lateinit var recorder: Recorder
+
+    private lateinit var alertBuilder: AlertDialog.Builder
+    val handler= Handler()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +89,12 @@ class UpdateNoteFragment : Fragment() {
         colorPick()
         selectImage()
         registerLauncher()
+        //playAudioUpdate()
+
+        context?.let {
+            recorder = Recorder(it)
+        }
+
 
         binding.etNoteTitleUpdate.setText(currentNote.noteTitle)
         binding.etNoteBodyUpdate.setText(currentNote.noteBody)
@@ -92,6 +107,27 @@ class UpdateNoteFragment : Fragment() {
 
         if (currentNote.photo != null){
             binding.loadSelectedImage.visibility=View.VISIBLE
+        }
+
+        if (currentNote.audioPath != null){
+            binding.playButton.visibility = View.VISIBLE
+            binding.recordButton.visibility = View.GONE
+        }else{
+            binding.playButton.visibility = View.GONE
+            binding.recordButton.visibility = View.VISIBLE
+        }
+
+        binding.playButton.setOnClickListener {
+            currentNote.audioPath?.let { it1 -> recorder.playAudio(it1) }
+            binding.playButton.setImageResource(recorder.test!!)
+        }
+
+
+        recorder.md.setOnCompletionListener {
+            Handler().postDelayed({
+                binding.playButton.setImageResource(R.drawable.ic_play_audio)
+            },  500L)
+
         }
 
         binding.fabDone.setOnClickListener {
@@ -112,7 +148,7 @@ class UpdateNoteFragment : Fragment() {
                 }else{
                     byteArray=currentNote.photo
                 }
-                val note = NoteModel(currentNote.id, title,body,byteArray,color,date)
+                val note = NoteModel(currentNote.id, title,body,byteArray,color,date,currentNote.audioPath)
 
                 viewModel.updateNote(note)
                 Snackbar.make(view,"Note Updated!",Snackbar.LENGTH_SHORT).show()
@@ -125,7 +161,38 @@ class UpdateNoteFragment : Fragment() {
 
         }
         toolBar= requireActivity().findViewById(R.id.toolbar)
+
     }
+
+
+
+    /*private fun playAudioUpdate(){
+
+        if(currentNote.audioPath != null){
+            binding.playButton.visibility = View.VISIBLE
+            binding.playButton.setOnClickListener {
+                recorder.file?.absolutePath?.let { it1 -> recorder.playAudio(it1) }
+                //recorder.playAudio(currentNote.audioPath!!)
+            }
+
+        }else{
+            binding.playButton.visibility = View.GONE
+        }
+
+    }*/
+
+    /*private fun playAudioUpdate(){
+        if (!currentNote.audioPath.isNullOrEmpty()){
+            binding.playButton.visibility = View.VISIBLE
+        }else{
+            binding.playButton.visibility = View.GONE
+        }
+
+        binding.playButton.setOnClickListener {
+            currentNote.audioPath?.let { it1 -> recorder.playAudio(it1) }
+        }
+    }*/
+
 
     private fun deleteNote(){
         AlertDialog.Builder(activity).apply {
@@ -248,6 +315,7 @@ class UpdateNoteFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        recorder.stopPlaying()
         _binding = null
 
     }

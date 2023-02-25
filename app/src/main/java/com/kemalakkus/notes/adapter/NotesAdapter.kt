@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.kemalakkus.notes.R
+import com.kemalakkus.notes.audio.Recorder
 import com.kemalakkus.notes.databinding.NoteLayoutAdapterBinding
 import com.kemalakkus.notes.fragments.HomeFragmentDirections
 import com.kemalakkus.notes.model.NoteModel
@@ -20,7 +21,7 @@ import kotlin.random.Random
 class NotesAdapter: RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
     class NotesViewHolder(val itemBinding: NoteLayoutAdapterBinding): RecyclerView.ViewHolder(itemBinding.root)
-    var colorsList :Array<String> = arrayOf( "#6C00FF","#C92C6D","#85CDFD","#FF9551","#A0D995","#F8B400","#BB6464","#DD4A48")
+
 
 
     private val differCallBack = object : DiffUtil.ItemCallback<NoteModel>(){
@@ -51,6 +52,14 @@ class NotesAdapter: RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
 
         holder.itemBinding.tvNoteTitle.text = currentNote.noteTitle
         holder.itemBinding.tvNoteBody.text = currentNote.noteBody
+
+        if (currentNote.audioPath != null) {
+            holder.itemBinding.audioIcon.visibility = View.VISIBLE
+
+        } else {
+            holder.itemBinding.audioIcon.visibility = View.GONE
+        }
+
 
         if (currentNote.photo==null){
             holder.itemBinding.circularImage.visibility= View.GONE

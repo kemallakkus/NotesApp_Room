@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/background_white"
+    android:background="@color/background"
     tools:context=".fragments.UpdateNoteFragment">
 
     <LinearLayout
@@ -13,21 +13,27 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <androidx.cardview.widget.CardView
+            android:id="@+id/updtadeCardView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:id="@+id/updtadeCardView"
-            android:background="@color/white"
+            android:layout_margin="@dimen/_16sdp"
+            android:background="@color/icon_color"
             app:cardCornerRadius="5dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:id="@+id/newLinear"
-                android:padding="16dp">
+                android:background="@color/background"
+                android:padding="@dimen/_16sdp">
 
                 <EditText
                     android:id="@+id/etNoteTitleUpdate"
@@ -45,52 +51,73 @@
                     android:id="@+id/etNoteBodyUpdate"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/_20sdp"
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:layout_weight="1"
                     android:gravity="start|top"
-                    android:textColor="@color/black"
+                    android:textColor="@color/textColor"
                     android:hint="Type something..."
                     android:inputType="textMultiLine"
                     android:textColorHint="@color/hintColor"
                     android:textSize="16sp" />
                 <ImageView
-                    android:layout_width="300dp"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_width="@dimen/_250sdp"
+                    android:layout_height="@dimen/_250sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
                     android:layout_gravity="center_horizontal"
                     android:scaleType="fitCenter"
                     android:visibility="gone"
                     android:id="@+id/loadSelectedImage">
                 </ImageView>
+
+
                 <LinearLayout
-                    android:layout_width="@dimen/_80sdp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
                     <ImageView
-                        android:layout_width="@dimen/_35sdp"
-                        android:layout_height="@dimen/_35sdp"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/new_image"
+                        android:src="@drawable/add_image"
                         android:scaleType="centerCrop"
-                        android:id="@+id/imageControl">
-                    </ImageView>
+                        android:id="@+id/imageControl"
+                        app:tint="@color/icon_color"/>
+
                     <ImageView
                         android:layout_width="@dimen/_30sdp"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginHorizontal="@dimen/_10sdp"
-                        android:src="@drawable/color_picker_note"
+                        android:src="@drawable/ic_color_mode"
                         android:scaleType="centerCrop"
-                        android:id="@+id/updateColorPicker">
-                    </ImageView>
+                        android:id="@+id/updateColorPicker"
+                        app:tint="@color/icon_color"/>
+
+                    <ImageView
+                        android:id="@+id/play_button"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:src="@drawable/ic_play_audio"
+                        app:tint="@color/icon_color"/>
+
+                    <ImageView
+                        android:id="@+id/record_button"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:src="@drawable/ic_microphone_audio"
+                        app:tint="@color/icon_color"/>
+
                 </LinearLayout>
 
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
     </LinearLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_done"
@@ -101,7 +128,7 @@
         android:fitsSystemWindows="true"
         app:borderWidth="0dp"
         android:backgroundTint="@color/colorPrimary"
-        android:tintMode="@color/white"
+        android:tintMode="@color/icon_color"
         android:src="@drawable/ic_done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

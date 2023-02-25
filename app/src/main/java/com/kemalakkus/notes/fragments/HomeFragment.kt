@@ -53,6 +53,17 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+
+        sharedPref = SharedPref(requireContext().applicationContext)
+        if (sharedPref.loadNightModeState()==true) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            binding.darkLightMode.setImageResource(R.drawable.icons8_sun_64)
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            binding.darkLightMode.setImageResource(R.drawable.icons8_moon_64__1_)
+        }
+
         return binding.root
 
 
@@ -63,7 +74,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
         viewModel = (activity as MainActivity).viewModel
 
-        sharedPref= SharedPref(requireContext().applicationContext)
+        //sharedPref= SharedPref(requireContext().applicationContext)
         setupRecyclerView()
 
         if (sharedPref.loadLayoutModeState()==true){
@@ -79,7 +90,26 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_newNoteFragment)
         }
 
-        if (sharedPref.loadNightModeState() == true) {
+        binding.darkLightMode.setOnClickListener {
+            //eğer uygulama dark mode da iken tıklanırsa
+
+            if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                sharedPref.setNightModeState(false)
+            }
+
+            else{
+                //eğer uygulama light mode da iken tıklaanırssa
+
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                sharedPref.setNightModeState(true)
+            }
+
+        }
+
+
+
+       /* if (sharedPref.loadNightModeState() == true) {
             binding.switchTheme.isChecked = true
         }
         binding.switchTheme.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -94,7 +124,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
                 //binding.switchTheme.text = "Off"
 
             }
-        }
+        }*/
     }
 
     private fun setupRecyclerView(){
@@ -137,10 +167,10 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.linearImage.visibility = View.GONE
 
         activity?.let {
-            viewModel.getAllNotes().observe(viewLifecycleOwner, { note ->
+            viewModel.getAllNotes().observe(viewLifecycleOwner) { note ->
                 notesAdapter.differ.submitList(note)
                 //updateUI(note)
-            })
+            }
         }
 
     }
@@ -159,10 +189,10 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.gridImage.visibility = View.GONE
 
         activity?.let {
-            viewModel.getAllNotes().observe(viewLifecycleOwner, { note ->
+            viewModel.getAllNotes().observe(viewLifecycleOwner) { note ->
                 notesAdapter.differ.submitList(note)
                 //updateUI(note)
-            })
+            }
         }
     }
 
@@ -207,25 +237,28 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun searchNotes(query: String?){
 
         val searchQuery = "%$query%"
-        viewModel.searchNote(searchQuery).observe(this, Observer { notemodel ->
+        viewModel.searchNote(searchQuery).observe(this) { notemodel ->
 
 
             notesAdapter.differ.submitList(notemodel)
-        })
+        }
 
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
+
 
     fun restarApp(){
         val intent= Intent(requireContext().applicationContext,MainActivity::class.java)
         startActivity(intent)
         requireActivity().finish()
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+
 
 
 }

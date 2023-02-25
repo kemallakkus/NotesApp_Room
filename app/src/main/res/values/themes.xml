@@ -4,16 +4,16 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/icon_color</item>
         <item name="android:statusBarColor">@color/colorAccent</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="CustomToolbarStyle">
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/white</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/icon_color</item>
+        <item name="android:textColorSecondary">@color/icon_color</item>
+        <item name="android:textColor">@color/icon_color</item>
+        <item name="android:colorControlNormal">@color/icon_color</item>
     </style>
 
 

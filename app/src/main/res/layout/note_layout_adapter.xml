@@ -6,11 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true"
-    android:background="@color/white">
+    android:background="@color/icon_color">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/constraintLayout">
+        android:id="@+id/constraintLayout"
+        android:background="@color/background"
+        >
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
@@ -55,7 +57,7 @@
                     android:maxHeight="170dp"
                     android:layout_marginLeft="5dp"
                     android:text="Type something..."
-                    android:textColor="@color/hintColor"
+                    android:textColor="@color/textColor"
                     android:textSize="16sp"
                     />
                 <TextView
@@ -72,6 +74,17 @@
                     android:textColor="@color/textColor"
                     android:textSize="16sp"
                     />
+
+                <ImageView
+                    android:id="@+id/audio_icon"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/ic_play_audio"
+                    android:contentDescription="@string/record_button_content_description"
+                    app:tint="@color/icon_color"/>
+
+
 
             </LinearLayout>
 

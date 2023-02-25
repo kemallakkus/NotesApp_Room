@@ -22,11 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        sharedPref=SharedPref(this)
-        if (sharedPref.loadNightModeState()==true)
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        else
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        //sharedPref=SharedPref(this)
+
 
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Notes)
